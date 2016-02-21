@@ -37,9 +37,10 @@ describe('server help page', function () {
                 assert.equal(res.statusCode, 200, 'success statusCode 200 return');
                 assert.equal(res.headers['content-type'], 'text/html; charset=utf-8', 'A help html page returned');
                 assert.isAtLeast(res.payload.indexOf('Help Page'), 0, 'Html page contain Help Page title.');
+                done();
             });
 
-            done();
+            
         });
     });
 });
@@ -62,8 +63,9 @@ describe('service API - /phonenumber', function ()
                 assert.equal(result.formatted.e164, '+64212566106', 'Correct e164 format returned');
                 assert.equal(result.formatted.international, '+64 21 256 6106', 'Correct international format returned');
                 assert.equal(result.formatted.rfc3966, 'tel:+64-21-256-6106', 'Correct rfc3966 format returned');
+                done();
             });
-            done();
+            
         });
         it('fail with valid phone number and unmatched country', function (done) {
             server.inject({ method: 'GET', url: '/phonenumber/%2b64212566106?country=uk' }, function (res) {
@@ -72,8 +74,9 @@ describe('service API - /phonenumber', function ()
                 assert.isNotTrue(result.success, 'Success is false for failed call');
                 assert.equal(result.code, 'Country Code not match with input country.', 'Error code returned');
                 assert.equal(result.message, 'Country Code not match with input country.', 'Error message returned');
+                done();
             });
-            done();
+            
         });
         it('fail with valid phone number and invalid country', function (done) {
             server.inject({ method: 'GET', url: '/phonenumber/012566106?country=zz' }, function (res) {
@@ -82,8 +85,9 @@ describe('service API - /phonenumber', function ()
                 assert.isNotTrue(result.success, 'Success is false for failed call');
                 assert.equal(result.code, 'Invalid country calling code', 'Error code returned');
                 assert.equal(result.message, 'Invalid country calling code', 'Error message returned');
+                done();
             });
-            done();
+            
         });
         it('fail with invalid phone number - too short', function (done) {
             server.inject({ method: 'GET', url: '/phonenumber/%2b642125?country=nz' }, function (res) {
@@ -92,8 +96,9 @@ describe('service API - /phonenumber', function ()
                 assert.isNotTrue(result.success, 'Success is false for failed call');
                 assert.equal(result.code, 'The string supplied is too short to be a phone number', 'Error code returned');
                 assert.equal(result.message, 'The string supplied is too short to be a phone number', 'Error message returned');
+                done();
             });
-            done();
+            
         });
     });
     
@@ -109,8 +114,9 @@ describe('service API - /phonenumber', function ()
                 assert.equal(result.formatted.e164, '+64212566106', 'Correct e164 format returned');
                 assert.equal(result.formatted.international, '+64 21 256 6106', 'Correct international format returned');
                 assert.equal(result.formatted.rfc3966, 'tel:+64-21-256-6106', 'Correct rfc3966 format returned');
+                done();
             });
-            done();
+            
         });
         it('fail with valid phone number and invalid country', function (done) {
             server.inject({ method: 'GET', url: '/phonenumber/012566106', headers: { 'x-client-ip': '127.0.0.1' } }, function (res) {
@@ -119,8 +125,9 @@ describe('service API - /phonenumber', function ()
                 assert.isNotTrue(result.success, 'Success is false for failed call');
                 assert.equal(result.code, 'Invalid country calling code', 'Error code returned');
                 assert.equal(result.message, 'Invalid country calling code', 'Error message returned');
+                done();
             });
-            done();
+            
         });
     });
 
@@ -134,8 +141,9 @@ describe('service API - /phonenumber', function ()
                 assert.equal(result.formatted.e164, '+64212566106', 'Correct e164 format returned');
                 assert.equal(result.formatted.international, '+64 21 256 6106', 'Correct international format returned');
                 assert.equal(result.formatted.rfc3966, 'tel:+64-21-256-6106', 'Correct rfc3966 format returned');
+                done();
             });
-            done();
+            
         });
         it('success with valid x-forwarded-for and invalid x-real-ip', function (done) {
             server.inject({ method: 'GET', url: '/phonenumber/0212566106', headers: { 'x-forwarded-for': '122.60.96.68', 'x-real-ip': '127.0.0.1' } }, function (res) {
@@ -146,8 +154,9 @@ describe('service API - /phonenumber', function ()
                 assert.equal(result.formatted.e164, '+64212566106', 'Correct e164 format returned');
                 assert.equal(result.formatted.international, '+64 21 256 6106', 'Correct international format returned');
                 assert.equal(result.formatted.rfc3966, 'tel:+64-21-256-6106', 'Correct rfc3966 format returned');
+                done();
             });
-            done();
+            
         });
         it('success with valid x-real-ip and invalid remote address', function (done) {
             server.inject({ method: 'GET', url: '/phonenumber/0212566106', headers: { 'x-client-ip': '122.60.96.68' }, remoteAddress: '127.0.0.1' }, function (res) {
@@ -158,8 +167,9 @@ describe('service API - /phonenumber', function ()
                 assert.equal(result.formatted.e164, '+64212566106', 'Correct e164 format returned');
                 assert.equal(result.formatted.international, '+64 21 256 6106', 'Correct international format returned');
                 assert.equal(result.formatted.rfc3966, 'tel:+64-21-256-6106', 'Correct rfc3966 format returned');
+                done();
             });
-            done();
+            
         });
         it('success with valid remote address', function (done) {
             server.inject({ method: 'GET', url: '/phonenumber/0212566106', remoteAddress: '122.60.96.68' }, function (res) {
@@ -170,8 +180,9 @@ describe('service API - /phonenumber', function ()
                 assert.equal(result.formatted.e164, '+64212566106', 'Correct e164 format returned');
                 assert.equal(result.formatted.international, '+64 21 256 6106', 'Correct international format returned');
                 assert.equal(result.formatted.rfc3966, 'tel:+64-21-256-6106', 'Correct rfc3966 format returned');
+                done();
             });
-            done();
+            
         });
     });
 });
